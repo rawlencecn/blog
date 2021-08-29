@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="my blog">
+    <meta name="keyword" content="&#39;NoWayBack&#39;, &#39;Rawlence&#39;, &#39;blog&#39;, &#39;nowayback&#39;, &#39;WebDesign&#39;, &#39;fe&#39;">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="./image/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Rawlence" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        mapState、mapMutations、mapAction的理解｜NoWayBack
+        
+    </title>
+
+    <link rel="canonical" href="https://nowayback.cn/2019/02/22/mapState、mapMutations、mapAction的理解/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('https://s2.ax1x.com/2019/11/13/MYYzeU.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Rawlence
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/my-works/">My Works</a>
+                    </li>
+                    <li>
+                        <a href="/Tags/">Tags</a>
+                    </li>
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+    var $loadingBar = document.querySelector('.navbar-custom.is-fixed::before');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+    window.onload =function()
+    {
+        document.styleSheets[3].addRule('.navbar-custom.is-fixed::before', 'opacity: 0');
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="https://s2.ax1x.com/2019/11/13/MYYzeU.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('https://s2.ax1x.com/2019/11/13/MYYzeU.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>mapState、mapMutations、mapAction的理解</h1>
+                    
+                    <span class="meta">
+                         作者 Lei Zhang
+                        <span>
+                          日期 2019-02-22
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Vue"
+                           title="Vue">Vue</a>
+                        
+                        <a class="tag" href="/tags/#vuex"
+                           title="vuex">vuex</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            mapState、mapMutations、mapAction的理解
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-10 col-sm-9 post-container">
+                <p>当一个组件需要获取多个状态时候，将这些状态都声明为计算属性会有些重复和冗余。为了解决这个问题，我们可以使用 <code>mapState</code> 辅助函数帮助我们生成计算属性。</p>
+<p>官方文档中的说明：</p>
+<blockquote>
+<h3 id="mapState"><a href="#mapState" class="headerlink" title="mapState"></a>mapState</h3><ul>
+<li><p><code>mapState(namespace?: string, map: Array&lt;string&gt; | Object&lt;string | function&gt;): Object</code></p>
+<p>为组件创建计算属性以返回 Vuex store 中的状态。<a target="_blank" rel="noopener" href="https://vuex.vuejs.org/zh/guide/state.html#mapstate-%E8%BE%85%E5%8A%A9%E5%87%BD%E6%95%B0">详细介绍</a></p>
+<p>第一个参数是可选的，可以是一个命名空间字符串。<a target="_blank" rel="noopener" href="https://vuex.vuejs.org/zh/guide/modules.html#%E5%B8%A6%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E7%9A%84%E7%BB%91%E5%AE%9A%E5%87%BD%E6%95%B0">详细介绍</a></p>
+<p>对象形式的第二个参数的成员可以是一个函数。<code>function(state: any)</code></p>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在单独构建的版本中辅助函数为 Vuex.mapState</span></span><br><span class="line"><span class="keyword">import</span> &#123; mapState &#125; <span class="keyword">from</span> <span class="string">&#x27;vuex&#x27;</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">computed</span>: mapState(&#123;</span><br><span class="line">    <span class="comment">// 箭头函数可使代码更简练，es6的箭头函数，传入参数是state，返回值是state.count。然后把返回值映射给count，此时调用this.count就是store里的count值</span></span><br><span class="line">    <span class="attr">count</span>: <span class="function"><span class="params">state</span> =&gt;</span> state.count,</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 传字符串参数 &#x27;count&#x27; 等同于 `state =&gt; state.count`</span></span><br><span class="line">    <span class="attr">countAlias</span>: <span class="string">&#x27;count&#x27;</span>,</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 为了能够使用 `this` 获取局部状态，必须使用常规函数</span></span><br><span class="line">    countPlusLocalState (state) &#123;</span><br><span class="line">      <span class="keyword">return</span> state.count + <span class="built_in">this</span>.localCount</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>mapState</code> 函数返回的是一个对象。我们如何将它与局部计算属性混合使用呢？通常，我们需要使用一个工具函数将多个对象合并为一个，以使我们可以将最终对象传给 computed 属性。但是自从有了对象展开运算符（现处于 ECMASCript 提案 stage-4 阶段），我们可以极大地简化写法：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  localComputed () &#123; <span class="comment">/* ... */</span> &#125;,</span><br><span class="line">  <span class="comment">// 使用对象展开运算符将此对象混入到外部对象中</span></span><br><span class="line">  ...mapState(&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="mapMutations-mapActions只是把mutation-action函数绑定到methods里面，调里面的方法时正常传参数。"><a href="#mapMutations-mapActions只是把mutation-action函数绑定到methods里面，调里面的方法时正常传参数。" class="headerlink" title="mapMutations/mapActions只是把mutation/action函数绑定到methods里面，调里面的方法时正常传参数。"></a>mapMutations/mapActions只是把mutation/action函数绑定到methods里面，调里面的方法时正常传参数。</h5>
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/03/05/小程序checkbox组件重写/" data-toggle="tooltip" data-placement="top"
+                           title="小程序checkbox组件重写">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/12/18/JavaScript-原型链与继承/" data-toggle="tooltip" data-placement="top"
+                           title="JavaScript: 原型链与继承">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80MTYwNy8xODE1NA==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-lg-1 col-lg-offset-1 col-sm-2 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapState"><span class="toc-text">mapState</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#mapMutations-mapActions%E5%8F%AA%E6%98%AF%E6%8A%8Amutation-action%E5%87%BD%E6%95%B0%E7%BB%91%E5%AE%9A%E5%88%B0methods%E9%87%8C%E9%9D%A2%EF%BC%8C%E8%B0%83%E9%87%8C%E9%9D%A2%E7%9A%84%E6%96%B9%E6%B3%95%E6%97%B6%E6%AD%A3%E5%B8%B8%E4%BC%A0%E5%8F%82%E6%95%B0%E3%80%82"><span class="toc-text">mapMutations&#x2F;mapActions只是把mutation&#x2F;action函数绑定到methods里面，调里面的方法时正常传参数。</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Vue"
+                           title="Vue">Vue</a>
+                        
+                        <a class="tag" href="/tags/#vuex"
+                           title="vuex">vuex</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/xxxxxxbuddy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Rawlence 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Using theme <a target="_blank" rel="noopener" href="https://github.com/Haojen/hexo-theme-Anisina">Anisina</a>
+                    <br>
+                    粤ICP备19096025号-1
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://nowayback.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = 'e530fb7e94b334b3b3cb415f62302f77';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="https://s2.ax1x.com/2019/11/13/MYYvLT.jpg">
+</body>
+
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="my blog">
+    <meta name="keyword" content="&#39;NoWayBack&#39;, &#39;Rawlence&#39;, &#39;blog&#39;, &#39;nowayback&#39;, &#39;WebDesign&#39;, &#39;fe&#39;">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="./image/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Rawlence" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        JavaScript: 数据类型的转换｜NoWayBack
+        
+    </title>
+
+    <link rel="canonical" href="https://nowayback.cn/2018/12/16/JavaScript-数据类型的转换/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('https://s2.ax1x.com/2019/11/13/MYYzeU.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Rawlence
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/my-works/">My Works</a>
+                    </li>
+                    <li>
+                        <a href="/Tags/">Tags</a>
+                    </li>
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+    var $loadingBar = document.querySelector('.navbar-custom.is-fixed::before');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+    window.onload =function()
+    {
+        document.styleSheets[3].addRule('.navbar-custom.is-fixed::before', 'opacity: 0');
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/image/js.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/image/js.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>JavaScript: 数据类型的转换</h1>
+                    
+                    <span class="meta">
+                         作者 Lei Zhang
+                        <span>
+                          日期 2018-12-16
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            JavaScript: 数据类型的转换
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-10 col-sm-9 post-container">
+                <p>（只记录易错转换）</p>
+<h2 id="一、-强制转换"><a href="#一、-强制转换" class="headerlink" title="一、 强制转换"></a>一、 强制转换</h2><h3 id="1-Number"><a href="#1-Number" class="headerlink" title="1. Number()"></a>1. Number()</h3><h4 id="1-原始类型值"><a href="#1-原始类型值" class="headerlink" title="(1) 原始类型值"></a>(1) 原始类型值</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 字符串：如果不可以被解析为数值，返回 NaN</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">&#x27;324abc&#x27;</span>) 	<span class="comment">// NaN</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串：如果不可以被解析为数值，返回 NaN</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">&#x27;324abc&#x27;</span>) 	<span class="comment">// NaN</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// null：转成0</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="literal">null</span>)		<span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
+
+<p>与parseInt区别</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">parseInt</span>(<span class="string">&#x27;42 cats&#x27;</span>) <span class="comment">// 42</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">&#x27;42 cats&#x27;</span>) 	<span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-对象"><a href="#2-对象" class="headerlink" title="(2) 对象"></a>(2) 对象</h4><p><code>Number</code>方法的参数是对象时，将返回<code>NaN</code>，除非是<strong>包含单个数值的数组</strong>。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Number</span>(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;) 		<span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">Number</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]) 	<span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">Number</span>([<span class="number">5</span>]) 		<span class="comment">// 5</span></span><br></pre></td></tr></table></figure>
+
+<p>之所以会这样，是因为<code>Number</code>背后的转换规则比较复杂。</p>
+<p>第一步，调用对象自身的<code>valueOf</code>方法。如果返回原始类型的值，则直接对该值使用<code>Number</code>函数，不再进行后续步骤。</p>
+<p>第二步，如果<code>valueOf</code>方法返回的还是对象，则改为调用对象自身的<code>toString</code>方法。如果<code>toString</code>方法返回原始类型的值，则对该值使用<code>Number</code>函数，不再进行后续步骤。</p>
+<p>第三步，如果<code>toString</code>方法返回的是对象，就报错。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">x</span>: <span class="number">1</span>&#125;;</span><br><span class="line"><span class="built_in">Number</span>(obj) 		<span class="comment">// NaN</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> obj.valueOf() === <span class="string">&#x27;object&#x27;</span>) &#123;</span><br><span class="line">  <span class="built_in">Number</span>(obj.toString());</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="built_in">Number</span>(obj.valueOf());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，对象的<code>valueOf</code>方法返回对象本身，所以一般总是会调用<code>toString</code>方法，而<code>toString</code>方法返回对象的类型字符串（比如<code>[object Object]</code>）。所以，会有下面的结果。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Number</span>(&#123;&#125;) 			<span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-String"><a href="#2-String" class="headerlink" title="2. String()"></a>2. String()</h3><h4 id="1-原始类型值-1"><a href="#1-原始类型值-1" class="headerlink" title="(1) 原始类型值"></a>(1) 原始类型值</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">String</span>(<span class="number">123</span>) 		<span class="comment">// &quot;123&quot;</span></span><br><span class="line"><span class="built_in">String</span>(<span class="string">&#x27;abc&#x27;</span>) 		<span class="comment">// &quot;abc&quot;</span></span><br><span class="line"><span class="built_in">String</span>(<span class="literal">true</span>) 		<span class="comment">// &quot;true&quot;</span></span><br><span class="line"><span class="built_in">String</span>(<span class="literal">undefined</span>) 	<span class="comment">// &quot;undefined&quot;</span></span><br><span class="line"><span class="built_in">String</span>(<span class="literal">null</span>) 		<span class="comment">// &quot;null&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-对象-1"><a href="#2-对象-1" class="headerlink" title="(2) 对象"></a>(2) 对象</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">String</span>(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;) 		<span class="comment">// &quot;[object Object]&quot;</span></span><br><span class="line"><span class="built_in">String</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]) 	<span class="comment">// &quot;1,2,3&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>String</code>方法背后的转换规则，与<code>Number</code>方法基本相同，只是互换了<code>valueOf</code>方法和<code>toString</code>方法的执行顺序。</p>
+<ol>
+<li>先调用对象自身的<code>toString</code>方法。如果返回原始类型的值，则对该值使用<code>String</code>函数，不再进行以下步骤。</li>
+<li>如果<code>toString</code>方法返回的是对象，再调用原对象的<code>valueOf</code>方法。如果<code>valueOf</code>方法返回原始类型的值，则对该值使用<code>String</code>函数，不再进行以下步骤。</li>
+<li>如果<code>valueOf</code>方法返回的是对象，就报错。</li>
+</ol>
+<h3 id="3-Boolean"><a href="#3-Boolean" class="headerlink" title="3. Boolean()"></a>3. Boolean()</h3><p>它的转换规则相对简单：除了以下五个值的转换结果为<code>false</code>，其他的值全部为<code>true</code>。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Boolean</span>(<span class="literal">undefined</span>) 	<span class="comment">// false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="literal">null</span>) 		<span class="comment">// false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="number">0</span>) 			<span class="comment">// false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="literal">NaN</span>) 		<span class="comment">// false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="string">&#x27;&#x27;</span>) 		<span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>经测试，<strong>Boolean(false) == true</strong></p>
+<p><strong>注意</strong>，所有对象（包括空对象）的转换结果都是<code>true</code>，甚至连<code>false</code>对应的布尔对象<code>new Boolean(false)</code>也是<code>true</code></p>
+<h2 id="二、-自动转换"><a href="#二、-自动转换" class="headerlink" title="二、 自动转换"></a>二、 自动转换</h2><h4 id="1-不同类型的数据互相运算"><a href="#1-不同类型的数据互相运算" class="headerlink" title="1. 不同类型的数据互相运算"></a>1. 不同类型的数据互相运算</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="number">123</span> + <span class="string">&#x27;abc&#x27;</span> 		<span class="comment">// &quot;123abc&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-对非布尔值类型的数据求布尔值"><a href="#2-对非布尔值类型的数据求布尔值" class="headerlink" title="2. 对非布尔值类型的数据求布尔值"></a>2. 对非布尔值类型的数据求布尔值</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="string">&#x27;abc&#x27;</span>) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;hello&#x27;</span>)</span><br><span class="line">&#125;  					<span class="comment">// &quot;hello&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-对非数值类型的值使用一元运算符（即-和-）"><a href="#3-对非数值类型的值使用一元运算符（即-和-）" class="headerlink" title="3. 对非数值类型的值使用一元运算符（即+和-）"></a>3. 对非数值类型的值使用一元运算符（即<code>+</code>和<code>-</code>）</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">+ &#123;<span class="attr">foo</span>: <span class="string">&#x27;bar&#x27;</span>&#125; 		<span class="comment">// NaN</span></span><br><span class="line">- [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] 		<span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>由于自动转换具有不确定性，而且不易除错，建议在预期为布尔值、数值、字符串的地方，全部使用<code>Boolean</code>、<code>Number</code>和<code>String</code>函数进行显式转换。</p>
+<blockquote>
+<p>参考文章： <a target="_blank" rel="noopener" href="https://wangdoc.com/javascript/features/conversion.html">https://wangdoc.com/javascript/features/conversion.html</a></p>
+</blockquote>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/12/18/JavaScript-原型链与继承/" data-toggle="tooltip" data-placement="top"
+                           title="JavaScript: 原型链与继承">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/12/15/Vue-Caveats-for-list-rendering/" data-toggle="tooltip" data-placement="top"
+                           title="Vue: Caveats for list rendering">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80MTYwNy8xODE1NA==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-lg-1 col-lg-offset-1 col-sm-2 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-text">一、 强制转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Number"><span class="toc-text">1. Number()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%8E%9F%E5%A7%8B%E7%B1%BB%E5%9E%8B%E5%80%BC"><span class="toc-text">(1) 原始类型值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AF%B9%E8%B1%A1"><span class="toc-text">(2) 对象</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-String"><span class="toc-text">2. String()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%8E%9F%E5%A7%8B%E7%B1%BB%E5%9E%8B%E5%80%BC-1"><span class="toc-text">(1) 原始类型值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AF%B9%E8%B1%A1-1"><span class="toc-text">(2) 对象</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Boolean"><span class="toc-text">3. Boolean()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2"><span class="toc-text">二、 自动转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BA%92%E7%9B%B8%E8%BF%90%E7%AE%97"><span class="toc-text">1. 不同类型的数据互相运算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AF%B9%E9%9D%9E%E5%B8%83%E5%B0%94%E5%80%BC%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%95%B0%E6%8D%AE%E6%B1%82%E5%B8%83%E5%B0%94%E5%80%BC"><span class="toc-text">2. 对非布尔值类型的数据求布尔值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%AF%B9%E9%9D%9E%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%80%BC%E4%BD%BF%E7%94%A8%E4%B8%80%E5%85%83%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%88%E5%8D%B3-%E5%92%8C-%EF%BC%89"><span class="toc-text">3. 对非数值类型的值使用一元运算符（即+和-）</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/xxxxxxbuddy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Rawlence 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Using theme <a target="_blank" rel="noopener" href="https://github.com/Haojen/hexo-theme-Anisina">Anisina</a>
+                    <br>
+                    粤ICP备19096025号-1
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://nowayback.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = 'e530fb7e94b334b3b3cb415f62302f77';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="https://s2.ax1x.com/2019/11/13/MYYvLT.jpg">
+</body>
+
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="my blog">
+    <meta name="keyword" content="&#39;NoWayBack&#39;, &#39;Rawlence&#39;, &#39;blog&#39;, &#39;nowayback&#39;, &#39;WebDesign&#39;, &#39;fe&#39;">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="./image/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Rawlence" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        flex布局学习笔记｜NoWayBack
+        
+    </title>
+
+    <link rel="canonical" href="https://nowayback.cn/2019/03/21/flex布局学习笔记/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('https://s2.ax1x.com/2019/11/13/MYYzeU.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Rawlence
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/my-works/">My Works</a>
+                    </li>
+                    <li>
+                        <a href="/Tags/">Tags</a>
+                    </li>
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+    var $loadingBar = document.querySelector('.navbar-custom.is-fixed::before');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+    window.onload =function()
+    {
+        document.styleSheets[3].addRule('.navbar-custom.is-fixed::before', 'opacity: 0');
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/image/00-basic-terminology.svg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/image/00-basic-terminology.svg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>flex布局学习笔记</h1>
+                    
+                    <span class="meta">
+                         作者 Lei Zhang
+                        <span>
+                          日期 2019-03-21
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#flex"
+                           title="flex">flex</a>
+                        
+                        <a class="tag" href="/tags/#css"
+                           title="css">css</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            flex布局学习笔记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-10 col-sm-9 post-container">
+                <h2 id="一、-基本概念"><a href="#一、-基本概念" class="headerlink" title="一、 基本概念"></a>一、 基本概念</h2><p><img src="00-basic-terminology.svg" alt="basic-terminology"></p>
+<h4 id="1-元素会排列在主轴（main-axis）或纵轴（cross-axis）上，方向start-—-gt-end"><a href="#1-元素会排列在主轴（main-axis）或纵轴（cross-axis）上，方向start-—-gt-end" class="headerlink" title="1. 元素会排列在主轴（main-axis）或纵轴（cross-axis）上，方向start —&gt; end"></a>1. 元素会排列在主轴（<code>main-axis</code>）或纵轴（<code>cross-axis</code>）上，方向start —&gt; end</h4><p>需要注意的是，main-axis并不一定就是水平的，这要取决于<code>flex-direction</code>属性</p>
+<h4 id="2-flex属性设置分为两部分：容器和项目"><a href="#2-flex属性设置分为两部分：容器和项目" class="headerlink" title="2. flex属性设置分为两部分：容器和项目"></a>2. flex属性设置分为两部分：容器和项目</h4><p>#####容器属性(flex container)：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;	//inline-<span class="attribute">flex</span></span><br><span class="line">    <span class="attribute">flex-direction</span>: row | row-reverse | column | column-reverse;	</span><br><span class="line">    //设定主轴，即元素排列方向（default: row; 由左至右）</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap | wrap | wrap-reverse;</span><br><span class="line">    //默认情况下，<span class="attribute">flex</span>元素倾向于排列在一行(nowrap)，可通过设置<span class="attribute">flex</span>-reverse来改变,其中wrap-reverse</span><br><span class="line">    //是从下向上排列，即前面的元素在底行，后面排列不下的元素换行到上方(end-&gt;start方向)的一行</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">flex-flow</span>: &lt;<span class="string">&#x27;flex-direction&gt;&#x27;</span> || &lt;<span class="string">&#x27;flex-wrap&gt;&#x27;</span>;</span><br><span class="line">    //是<span class="attribute">flex-direction</span>和<span class="attribute">flex-wrap</span>属性的合写形式</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">justify-content</span>: flex-start | flex-end | center | space-around | space-between | 						 space-evenly;</span><br><span class="line">    //指定元素在主轴上的分布方式，用于分配剩余的额外空间，默认为<span class="attribute">flex</span>-start</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">align-items</span>: flex-start | flex-end | center | stretch | baseline;</span><br><span class="line">    //指定元素在纵轴上的分布方式，默认为stretch</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">align-content</span>: flex-start | flex-end | center | stretch | space-between | space-					   around;</span><br><span class="line">    //将每一行视为一个整体，指定每一行在纵轴上的分布方式，类似<span class="attribute">justify-content</span>，默认stretch</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>justify-content</code>：<img src="justify-content.svg" alt="justify-content"></p>
+<p><code>align-content</code>: <img src="align-content.svg" alt="align-content"></p>
+<hr>
+<h5 id="子元素属性-flex-items"><a href="#子元素属性-flex-items" class="headerlink" title="子元素属性(flex items):"></a>子元素属性(flex items):</h5><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.item</span>&#123;</span><br><span class="line">    <span class="attribute">order</span>: &lt;integer&gt;;		//元素在容器内排列的顺序，默认都为<span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="attribute">flex-grow</span>: &lt;number&gt;;	//决定了元素在容器内所占用剩余空间的比例（无单位，如‘<span class="number">2</span>’所占剩余空间是<span class="number">1</span>的							   //两倍），默认为<span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="attribute">flex-shrink</span>: &lt;number&gt;;	//元素可以收缩的能力，默认为<span class="number">1</span>，负值无效</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">flex-basis</span>: &lt;length&gt; | auto;</span><br><span class="line">    //在未分配剩余空间时元素的大小</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">flex</span>: none | [ &lt;<span class="string">&#x27;flex-grow&#x27;</span>&gt; &lt;<span class="string">&#x27;flex-shrink&#x27;</span>&gt;? || &lt;<span class="string">&#x27;flex-basis&#x27;</span>&gt; ];</span><br><span class="line">    //合写方法，<span class="attribute">flex-shrink</span>、<span class="attribute">flex-basis</span>可不写</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">align-self</span>: auto | flex-start | flex-end | center | baseline | stretch;</span><br><span class="line">    //重新定义某一特定元素在纵轴上的分步方式</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>flex-basis</code>: <img src="rel-vs-abs-flex.svg" alt="rel-vs-abs-flex"></p>
+<p><strong>注意：<code>float</code>、<code>clear</code>和<code>vertical-align</code>属性对flex item无效</strong></p>
+<h2 id="二、-练习"><a href="#二、-练习" class="headerlink" title="二、 练习"></a>二、 练习</h2><h4 id="1-实现页面上方导航栏，宽度大于800px时，位于右侧；宽度500px-800px时居中；宽度小于500px时纵向显示"><a href="#1-实现页面上方导航栏，宽度大于800px时，位于右侧；宽度500px-800px时居中；宽度小于500px时纵向显示" class="headerlink" title="1. 实现页面上方导航栏，宽度大于800px时，位于右侧；宽度500px~800px时居中；宽度小于500px时纵向显示"></a>1. 实现页面上方导航栏，宽度大于800px时，位于右侧；宽度500px~800px时居中；宽度小于500px时纵向显示</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;nav&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>About<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>Product<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>Contact<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>More<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.nav</span>&#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#00bbad</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.nav</span>&gt;<span class="selector-tag">ul</span>&#123;</span><br><span class="line">  <span class="attribute">list-style-type</span>: none;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-flow</span>: row wrap;</span><br><span class="line">  <span class="attribute">justify-content</span>: flex-end;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.nav</span>&gt;<span class="selector-tag">ul</span>&gt;<span class="selector-tag">li</span>&#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">1rem</span>;</span><br><span class="line">  <span class="attribute">cursor</span>: pointer;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.nav</span>&gt;<span class="selector-tag">ul</span>&gt;<span class="selector-tag">li</span><span class="selector-pseudo">:hover</span>&#123;</span><br><span class="line">  <span class="attribute">background-color</span>: lightblue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@media</span> all <span class="keyword">and</span> (<span class="attribute">max-width</span>: <span class="number">800px</span>)&#123;</span><br><span class="line">  <span class="selector-class">.nav</span>&gt;<span class="selector-tag">ul</span>&#123;</span><br><span class="line">    <span class="attribute">justify-content</span>: space-around;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@media</span> all <span class="keyword">and</span> (<span class="attribute">max-width</span>: <span class="number">500px</span>)&#123;</span><br><span class="line">  <span class="selector-class">.nav</span>&gt;<span class="selector-tag">ul</span>&#123;</span><br><span class="line">    <span class="attribute">flex-direction</span>: column;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="demo1.gif" alt="demo1"></p>
+<h4 id="2-改变整体在不同分辨率下的布局"><a href="#2-改变整体在不同分辨率下的布局" class="headerlink" title="2. 改变整体在不同分辨率下的布局"></a>2. 改变整体在不同分辨率下的布局</h4><p>具体要求：</p>
+<p>结构： </p>
+<ul>
+<li>​    header</li>
+<li>​        article</li>
+<li>​        aside1</li>
+<li>​        aside2</li>
+<li>​        footer</li>
+</ul>
+<p><img src="%E5%B8%83%E5%B1%801.png" alt="width&gt;800px"> <img src="%E5%B8%83%E5%B1%802.png" alt="width&gt;600px"> <img src="%E5%B8%83%E5%B1%803.png" alt="width&lt;600px"></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;header&quot;</span>&gt;</span>header<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;article&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Block formatting context直译为&quot;块级格式化上下文&quot;。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。通俗地讲，BFC是一个容器，用于管理块级元素。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;aside aside1&quot;</span>&gt;</span>aside1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;aside aside2&quot;</span>&gt;</span>aside2<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;footer&quot;</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-flow</span>: row wrap;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.container</span>&gt;*&#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span> <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span>&#123;</span><br><span class="line">  <span class="attribute">background-color</span>: lightblue;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.article</span>&#123;</span><br><span class="line">  <span class="attribute">background-color</span>: lightgreen;</span><br><span class="line">  <span class="attribute">text-align</span>: left;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.aside1</span>&#123;</span><br><span class="line">  <span class="attribute">background-color</span>: yellow;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.aside2</span>&#123;</span><br><span class="line">  <span class="attribute">background-color</span>: red;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.footer</span>&#123;</span><br><span class="line">  <span class="attribute">background-color</span>: grey;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@media</span> all <span class="keyword">and</span> (<span class="attribute">min-width</span>: <span class="number">600px</span>)&#123;</span><br><span class="line">  <span class="selector-class">.aside</span>&#123;<span class="attribute">flex</span>: <span class="number">1</span> <span class="number">0</span> <span class="number">0</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@media</span> all <span class="keyword">and</span> (<span class="attribute">min-width</span>: <span class="number">800px</span>)&#123;</span><br><span class="line">  <span class="selector-class">.article</span>&#123;</span><br><span class="line">    <span class="attribute">flex</span>: <span class="number">3</span> <span class="number">0px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.aside1</span>&#123;</span><br><span class="line">    <span class="attribute">order</span>: <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.article</span>&#123;</span><br><span class="line">    <span class="attribute">order</span>: <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.aside2</span>&#123;</span><br><span class="line">    <span class="attribute">order</span>: <span class="number">3</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.footer</span>&#123;</span><br><span class="line">    <span class="attribute">order</span>: <span class="number">4</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="demo2.gif" alt="demo2"></p>
+<hr>
+<blockquote>
+<p>参考资料：<a target="_blank" rel="noopener" href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">https://css-tricks.com/snippets/css/a-guide-to-flexbox/</a></p>
+</blockquote>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/03/21/ES6-Class基本语法/" data-toggle="tooltip" data-placement="top"
+                           title="ES6: Class基本语法">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/03/05/小程序checkbox组件重写/" data-toggle="tooltip" data-placement="top"
+                           title="小程序checkbox组件重写">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80MTYwNy8xODE1NA==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-lg-1 col-lg-offset-1 col-sm-2 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">一、 基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%85%83%E7%B4%A0%E4%BC%9A%E6%8E%92%E5%88%97%E5%9C%A8%E4%B8%BB%E8%BD%B4%EF%BC%88main-axis%EF%BC%89%E6%88%96%E7%BA%B5%E8%BD%B4%EF%BC%88cross-axis%EF%BC%89%E4%B8%8A%EF%BC%8C%E6%96%B9%E5%90%91start-%E2%80%94-gt-end"><span class="toc-text">1. 元素会排列在主轴（main-axis）或纵轴（cross-axis）上，方向start —&gt; end</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-flex%E5%B1%9E%E6%80%A7%E8%AE%BE%E7%BD%AE%E5%88%86%E4%B8%BA%E4%B8%A4%E9%83%A8%E5%88%86%EF%BC%9A%E5%AE%B9%E5%99%A8%E5%92%8C%E9%A1%B9%E7%9B%AE"><span class="toc-text">2. flex属性设置分为两部分：容器和项目</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%90%E5%85%83%E7%B4%A0%E5%B1%9E%E6%80%A7-flex-items"><span class="toc-text">子元素属性(flex items):</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E7%BB%83%E4%B9%A0"><span class="toc-text">二、 练习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AE%9E%E7%8E%B0%E9%A1%B5%E9%9D%A2%E4%B8%8A%E6%96%B9%E5%AF%BC%E8%88%AA%E6%A0%8F%EF%BC%8C%E5%AE%BD%E5%BA%A6%E5%A4%A7%E4%BA%8E800px%E6%97%B6%EF%BC%8C%E4%BD%8D%E4%BA%8E%E5%8F%B3%E4%BE%A7%EF%BC%9B%E5%AE%BD%E5%BA%A6500px-800px%E6%97%B6%E5%B1%85%E4%B8%AD%EF%BC%9B%E5%AE%BD%E5%BA%A6%E5%B0%8F%E4%BA%8E500px%E6%97%B6%E7%BA%B5%E5%90%91%E6%98%BE%E7%A4%BA"><span class="toc-text">1. 实现页面上方导航栏，宽度大于800px时，位于右侧；宽度500px~800px时居中；宽度小于500px时纵向显示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%94%B9%E5%8F%98%E6%95%B4%E4%BD%93%E5%9C%A8%E4%B8%8D%E5%90%8C%E5%88%86%E8%BE%A8%E7%8E%87%E4%B8%8B%E7%9A%84%E5%B8%83%E5%B1%80"><span class="toc-text">2. 改变整体在不同分辨率下的布局</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#flex"
+                           title="flex">flex</a>
+                        
+                        <a class="tag" href="/tags/#css"
+                           title="css">css</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/xxxxxxbuddy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Rawlence 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Using theme <a target="_blank" rel="noopener" href="https://github.com/Haojen/hexo-theme-Anisina">Anisina</a>
+                    <br>
+                    粤ICP备19096025号-1
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://nowayback.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = 'e530fb7e94b334b3b3cb415f62302f77';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="https://s2.ax1x.com/2019/11/13/MYYvLT.jpg">
+</body>
+
+</html>
