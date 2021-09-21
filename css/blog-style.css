@@ -574,6 +574,7 @@ footer .copyright a {
 footer .copyright a:hover,
 footer .copyright a:focus {
     color: #0085a1;
+    text-decoration: none;
 }
 
 .floating-label-form-group {
